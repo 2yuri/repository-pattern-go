@@ -1,0 +1,6 @@
+.env
+.out
+.idea
+vendor
+.vscode
+go.sum
