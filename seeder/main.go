@@ -22,7 +22,6 @@ func main() {
 	//Add seeders files
 	path := []string{
 		basepath + "/files/products.sql",
-		basepath + "/files/users.sql",
 	}
 
 	for _, val := range path {
