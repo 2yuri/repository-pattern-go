@@ -5,3 +5,4 @@ vendor
 .vscode
 go.sum
 .DS_Store
+tmp

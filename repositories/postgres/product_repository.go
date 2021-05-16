@@ -28,7 +28,7 @@ func (s *ProductRepository) Delete(id uint) (model.Product, error) {
 		return model.Product{}, err
 	}
 
-	err = db.Delete(n).Error
+	err = db.Delete(&n).Error
 	if err != nil {
 		return model.Product{}, fmt.Errorf("cannot delete file: %v", err)
 	}

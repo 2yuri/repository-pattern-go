@@ -17,6 +17,7 @@ func Show(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": "ID has to be integer",
 		})
+		return
 	}
 
 	repo := &repository.ProductRepository{}
@@ -28,6 +29,7 @@ func Show(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": err.Error(),
 		})
+		return
 	}
 
 	c.JSON(200, result)
@@ -42,6 +44,7 @@ func ShowAll(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": err.Error(),
 		})
+		return
 	}
 
 	c.JSON(200, result)
@@ -55,6 +58,8 @@ func Create(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": err.Error(),
 		})
+
+		return
 	}
 
 	repo := &repository.ProductRepository{}
@@ -65,6 +70,8 @@ func Create(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": err.Error(),
 		})
+
+		return
 	}
 
 	c.JSON(200, result)
@@ -78,6 +85,7 @@ func Update(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": err.Error(),
 		})
+		return
 	}
 
 	repo := &repository.ProductRepository{}
@@ -88,6 +96,7 @@ func Update(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": err.Error(),
 		})
+		return
 	}
 
 	c.Status(204)
@@ -101,6 +110,8 @@ func Delete(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": "ID has to be integer",
 		})
+
+		return
 	}
 
 	repo := &repository.ProductRepository{}
@@ -111,6 +122,8 @@ func Delete(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": err.Error(),
 		})
+
+		return
 	}
 
 	c.JSON(200, result)

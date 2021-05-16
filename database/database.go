@@ -3,11 +3,10 @@ package database
 import (
 	"fmt"
 	"log"
-	"os"
-	"strconv"
 	"time"
 
-	"github.com/hyperyuri/repository-pattern-go/migrations"
+	"github.com/hyperyuri/repository-pattern-go/config"
+	"github.com/hyperyuri/repository-pattern-go/database/migrations"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -15,14 +14,14 @@ import (
 var db *gorm.DB
 
 func StartDatabase() {
-	DbHost := os.Getenv("DB_HOST")
-	DbPort := os.Getenv("DB_PORT")
-	DbUser := os.Getenv("DB_USER")
-	DbName := os.Getenv("DB_NAME")
-	DbSSlMode := os.Getenv("DB_SSL_MODE")
-	DbPass := os.Getenv("DB_PASS")
-	DbMaxIddleConns, _ := strconv.Atoi(os.Getenv("DB_MAX_IDDLE_CONNS"))
-	DbMaxOpensConns, _ := strconv.Atoi(os.Getenv("DB_MAX_OPENS_CONNS"))
+	DbHost := config.GetConfig().DatabaseHost
+	DbPort := config.GetConfig().DatabasePort
+	DbUser := config.GetConfig().DatabaseUser
+	DbName := config.GetConfig().DatabaseName
+	DbSSlMode := config.GetConfig().DatabaseSslMode
+	DbPass := config.GetConfig().DatabasePass
+	DbMaxIddleConns := config.GetConfig().DatabaseMaxIdleConns
+	DbMaxOpensConns := config.GetConfig().DatabaseMaxOpensConns
 
 	dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=%s password=%s", DbHost, DbPort, DbUser, DbName, DbSSlMode, DbPass)
 	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})

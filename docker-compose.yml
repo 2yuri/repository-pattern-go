@@ -1,0 +1,58 @@
+version: "3.7"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: _go.dockerfile
+      target: builder
+    image: github.com/hyperyuri/repository
+    container_name: repository-pattern
+    depends_on:
+      - db
+    environment:
+      HOST: "${HOST}"
+      PORT: "${PORT}"
+      DB_HOST: "${DB_HOST}"
+      DB_PORT: "${DB_PORT}"
+      DB_SSLMODE: "${DB_SSL_MODE}"
+      DB_USER: "${DB_USER}"
+      DB_NAME: "${DB_NAME}"
+      DB_PASS: "${DB_PASS}"
+      DB_TYPE: "${DB_TYPE}"
+      DB_MAX_IDLE_CONNS: "${DB_MAX_IDLE_CONNS}"
+      DB_MAX_OPENS_CONNS: "${DB_MAX_OPENS_CONNS}"
+      DB_CONN_MAX_LIFETIME: "${DB_CONN_MAX_LIFETIME}"
+    volumes:
+      - .:/go/src/app
+    ports:
+      - 8080:8000
+    networks:
+      - repository-network
+
+  db:
+    build:
+      context: .
+      dockerfile: _postgres.dockerfile
+    image: github.com/hyperyuri/repository-db
+    container_name: repository-pattern-db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "25432:5432"
+    environment:
+      POSTGRES_DB: "${DB_NAME}"
+      POSTGRES_USER: "${DB_USER}"
+      POSTGRES_PASSWORD: "${DB_PASS}"
+      PGDATA: /var/lib/postgresql/data/repository-pattern-go
+    volumes:
+      - repository-pattern-go:/var/lib/postgresql/data
+    networks:
+      - repository-network
+
+networks:
+  repository-network:
+    driver: bridge
+
+volumes:
+  repository-pattern-go:
